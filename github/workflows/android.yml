@@ -1,8 +1,9 @@
-name: Build Android APK
+name: Build DeviceGuard APK
 
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -20,6 +21,9 @@ jobs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
 
+    - name: Decode google-services.json
+      run: echo "${{ secrets.GOOGLE_SERVICES_JSON_B64 }}" | base64 --decode > app/google-services.json
+
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
@@ -29,5 +33,5 @@ jobs:
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
-        name: RemoteAgent-APK
+        name: DeviceGuard-debug-apk
         path: app/build/outputs/apk/debug/app-debug.apk
