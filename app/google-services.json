@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "642274253956",
+    "project_id": "flame-a7de3",
+    "storage_bucket": "flame-a7de3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642274253956:android:d7fffed26a6377533436d1",
+        "android_client_info": {
+          "package_name": "com.airavat.pro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpyXjgwX7JmG0wG8BJwhs0QveFBMKOw3s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
