@@ -5,12 +5,20 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
+    // Enforces that ALL repositories must be defined here. 
+    // Any 'repositories' block in a build.gradle file will cause an immediate, intentional failure.
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    
     repositories {
         google()
         mavenCentral()
     }
 }
-rootProject.name = "DeviceGuard"
+
+// This must match your project's name
+rootProject.name = "AIRAVAT-PRO"
+
+// Includes your main application module (adjust if you have more, e.g., ':lib')
 include ':app'
