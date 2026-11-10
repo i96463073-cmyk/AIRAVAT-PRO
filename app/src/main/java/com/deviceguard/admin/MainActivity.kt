@@ -4,51 +4,40 @@ import android.os.Bundle
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.firestore.FirebaseFirestore
+import android.graphics.Color
+import android.view.Gravity
 import android.util.Log
 
 class MainActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
-        // Create a safe UI programmatically to prevent crashes
+        // Build UI safely in code to prevent layout inflation crashes
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
+        layout.setBackgroundColor(Color.parseColor("#1A1A1A")) // Dark background
+        layout.gravity = Gravity.CENTER
         layout.setPadding(50, 50, 50, 50)
 
         val title = TextView(this)
-        title.text = "AIRAVAT C2 PAYLOAD"
+        title.text = "AIRAVAT C2 CLIENT"
         title.textSize = 24f
-        
+        title.setTextColor(Color.GREEN)
+        title.gravity = Gravity.CENTER
+
         val status = TextView(this)
-        status.text = "Status: Initializing..."
+        status.text = "Status: Payload Initialized Successfully."
         status.textSize = 16f
+        status.setTextColor(Color.WHITE)
+        status.gravity = Gravity.CENTER
+        status.setPadding(0, 30, 0, 0)
 
         layout.addView(title)
         layout.addView(status)
         
-        // Set the layout as the screen
         setContentView(layout)
-
-        // Try to connect to Firebase safely
-        try {
-            val db = FirebaseFirestore.getInstance()
-            
-            // Test connection by reading a document
-            db.collection("victims").document("test_device").get()
-                .addOnSuccessListener { document ->
-                    status.text = "Status: Connected to Firebase!"
-                    Log.d("AIRAVAT_C2", "Successfully connected to Firestore")
-                }
-                .addOnFailureListener { exception ->
-                    status.text = "Status: Firebase Error\n${exception.message}"
-                    Log.e("AIRAVAT_C2", "Firebase error", exception)
-                }
-                
-        } catch (e: Exception) {
-            status.text = "Status: Firebase Init Failed\n${e.message}"
-            Log.e("AIRAVAT_C2", "Exception", e)
-        }
+        
+        // Log to Android system so we know it launched
+        Log.d("AIRAVAT_C2", "App launched successfully.")
     }
 }
