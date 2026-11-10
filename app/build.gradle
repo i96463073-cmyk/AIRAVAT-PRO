@@ -4,11 +4,12 @@ plugins {
 }
 
 android {
-    namespace 'com.airavat.pro'
+    // Matched this to your MainActivity.kt package path
+    namespace 'com.deviceguard.admin' 
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.airavat.pro"
+        applicationId "com.deviceguard.admin"
         minSdk 24
         targetSdk 34
         versionCode 1
@@ -27,11 +28,8 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    
-    // 删除了原来的 kotlinOptions { ... } 块
 }
 
-// 新增：AGP 9 内置 Kotlin 的编译器选项配置[reference:2]
 kotlin {
     compilerOptions {
         jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
@@ -44,10 +42,14 @@ dependencies {
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
+    // Firebase BOM
     implementation platform('com.google.firebase:firebase-bom:32.8.0')
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-messaging'
+    
+    // ADDED: Firestore dependency required for the errors in your log
+    implementation 'com.google.firebase:firebase-firestore-ktx'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
