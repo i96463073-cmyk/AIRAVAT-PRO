@@ -1,6 +1,4 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    // AGP 9.5.0 handles Kotlin internally, so we remove the separate Kotlin plugin.
     id 'com.android.application' version '9.5.0' apply false
     id 'com.android.library' version '9.5.0' apply false
     id 'com.google.gms.google-services' version '4.4.1' apply false
